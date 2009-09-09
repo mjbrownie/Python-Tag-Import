@@ -90,7 +90,7 @@ function!PythonTagImportComplete()
                     let filename=substitute(filename, ".__init__.py", "", "")
                     let filename=substitute(filename, "\.py$", "", "")
                     "        let filename=substitute(filename, ".$", "", "")
-                    let filename=substitute(filename, "^\.", "", "")
+                    let filename=substitute(filename, "^\\.", "", "")
 
                     let filename = 'from ' . filename . " import " . curtag
 
