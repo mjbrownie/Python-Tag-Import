@@ -3,7 +3,7 @@
 " Brief:        python_tag_import import shortcut based on tags file
 " Author:       Michael Brown <michael@ascetinteractive.com>
 " Last Change:  2009-7-9
-" Version:      0.1
+" Version:      0.2
 "
 " Install:      1. Put python_tag_import.vim to plugin
 "                  directory.
@@ -77,8 +77,12 @@ else
 endif
 
 function!PythonTagImportComplete()
-    let s:taglist =taglist(substitute ( '^'.  getline ('.'), '^[\t ]*','','' ) . "$")
-    let curtag = getline(".")
+    if match(getline('.'),'^\s*\w\+\s*$') == -1
+        return ''
+    endif
+
+    let s:taglist =taglist(expand('<cword>'))
+    let curtag = expand('<cword>')
     let s:pythontagcomplete_selected = ''
 
     let s:pythontagcomplete_list = []
@@ -108,12 +112,8 @@ function!PythonTagImportComplete()
         return ''
     endif
 
-    if len(s:pythontagcomplete_list)==1
-        call setline(".", s:pythontagcomplete_list[0])
-        return ''
-    else
-        call setline(".","")
-        call  complete(col('.'),s:pythontagcomplete_list)
-        return ''
-    endif
+    exec "norm diw"
+    call  complete(col('.'),s:pythontagcomplete_list)
+    return ''
+
 endfunction
