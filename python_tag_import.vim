@@ -3,7 +3,7 @@
 " Brief:        python_tag_import import shortcut based on tags file
 " Author:       Michael Brown <michael@ascetinteractive.com>
 " Last Change:  2009-7-9
-" Version:      0.2
+" Version:      0.3
 "
 " Install:      1. Put python_tag_import.vim to plugin
 "                  directory.
