@@ -49,6 +49,22 @@ if !exists("g:pythontagimportkey")
     let g:pythontagimportkey = "<c-b>"   "hotkey
 endif
 
+"This  gives the option to turn off methods you dont like
+if !exists("g:pythontagimport_from")
+    let g:pythontagimport_from = 1
+endif
+
+if !exists("g:pythontagimport_from_mod")
+    let g:pythontagimport_from_mod = 1
+endif
+
+if !exists("g:pythontagimport_as")
+    let g:pythontagimport_as = 1
+endif
+
+if !exists("g:pythontagimport_full")
+    let g:pythontagimport_full  = 1
+endif
 " ----------------------------
 
 " Autocommands:
@@ -99,9 +115,30 @@ function!PythonTagImportComplete()
                     "        let filename=substitute(filename, ".$", "", "")
                     let filename=substitute(filename, "^\\.", "", "")
 
-                    let filename = 'from ' . filename . " import " . curtag
+                    let a_modname = split(filename, '\.')
+                    let modname = a_modname[-1]
 
-                    let s:pythontagcomplete_list += [filename]
+                    if (g:pythontagimport_from)
+                        let from_import = 'from ' . filename . " import " . curtag
+                        let s:pythontagcomplete_list += [from_import]
+                    endif
+
+                    if (g:pythontagimport_as)
+                        let mod_import = "import " . filename . " as " . modname .
+                                    \"  #" . modname . '.' . curtag
+                        let s:pythontagcomplete_list += [mod_import]
+                    endif
+
+                    if (g:pythontagimport_from_mod && len(a_modname) > 1)
+                        let mod_import = "from " . join(a_modname[0:-2], '.') .  " import " . modname .
+                                    \"  #" . modname . '.' . curtag
+                        let s:pythontagcomplete_list += [mod_import]
+                    endif
+
+                    if (g:pythontagimport_full)
+                        let s:pythontagcomplete_list += ["import " .
+                                    \ filename . " #" . filename . "." . curtag]
+                    endif
                 endif
             endfor
 
