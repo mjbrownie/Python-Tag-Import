@@ -68,7 +68,7 @@ endif
 " ----------------------------
 
 " Autocommands:
-autocmd BufReadPost,BufNewFile * call PythonTagImportStart()
+autocmd BufReadPost,BufNewFile *.py call PythonTagImportStart()
 
 " Menus:
 menu <silent>       &Tools.Python\ Tag\ Complete\ Start          :call PythonTagImportStart()<CR>
