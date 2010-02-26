@@ -22,9 +22,37 @@
 "
 "           variables:
 "
-"               g:pythontagimportkey
-"                   the key used to complete function
-"                   parameters and key words.
+"               let g:pythontagimportkey = "<c-x><c-i>"
+"
+"               the key used to complete function
+"               parameters and key words.
+"
+"
+"               let g:pythontagimportcurrentword = "<leader>i"
+"
+"               This key map creates an import statement for the <cword>
+"               in normal mode
+"
+"               let g:pythontagimport_from = 0
+"
+"               turns off
+"               from  foo.bar.module import funcname
+
+"               let g:pythontagimport_from_mod = 0
+"
+"               turns off
+"               from foo.bar import module #module.funcname
+
+"               let g:pythontagimport_as = 0
+"
+"               turns off
+"               import foo.bar.module as module #module.funcname
+
+"               let g:pythontagimport_full  = 0
+"
+"               turns off
+"               import foo.bar.module #foo.bar.module.funcname
+"
 "
 "Limitations:
 "
@@ -43,10 +71,14 @@ if v:version < 700
     finish
 endif
 
-" Variable Definations: {{{1
+" Variable Definitions: {{{1
 " options, define them as you like in vimrc:
 if !exists("g:pythontagimportkey")
     let g:pythontagimportkey = "<c-b>"   "hotkey
+endif
+
+if !exists("g:pythontagimportcurrentword")
+    let g:pythontagimportcurrentword = "<leader>i"   "hotkey
 endif
 
 "This  gives the option to turn off methods you dont like
@@ -79,6 +111,7 @@ menu <silent>       &Tools.Python\ Tag\ Complete\ Stop           :call PythonTag
 function! PythonTagImportStart()
     exec "silent! iunmap  <buffer> ".g:pythontagimportkey
     exec "inoremap <buffer> ".g:pythontagimportkey."  <c-r>=PythonTagImportComplete()<cr>"
+    exec "nnoremap <buffer> ".g:pythontagimportcurrentword."  yiwO<esc>pA<C-R>=PythonTagImportComplete()<CR>"
 endfunction
 
 function! PythonTagImportStop()
