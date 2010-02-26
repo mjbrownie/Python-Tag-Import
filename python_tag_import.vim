@@ -2,8 +2,8 @@
 " File:         python_tag_import.vim
 " Brief:        python_tag_import import shortcut based on tags file
 " Author:       Michael Brown <michael@ascetinteractive.com>
-" Last Change:  2009-7-9
-" Version:      0.3
+" Last Change:  2010-2-26
+" Version:      0.3.1
 "
 " Install:      1. Put python_tag_import.vim to plugin
 "                  directory.
@@ -97,13 +97,14 @@ function!PythonTagImportComplete()
         return ''
     endif
 
-    let s:taglist =taglist(expand('<cword>'))
-    let curtag = expand('<cword>')
+    let curtag = getline('.')
+    let tag_list = []
+    let tag_list = taglist(curtag)
     let s:pythontagcomplete_selected = ''
 
     let s:pythontagcomplete_list = []
 
-    for tag in s:taglist
+    for tag in tag_list
         if tag['kind'] != 'm'
             for path in g:python_path
                 let filename = tag['filename']
